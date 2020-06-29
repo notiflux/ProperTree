@@ -19,7 +19,7 @@ class ProperTree:
     def __init__(self, plists = []):
         # Create the new tk object
         self.tk = tk.Tk()
-        self.convert_frame = ttk.Frame(self.tk)
+        self.convert_frame = tk.Frame(self.tk, background="gray10")
         self.convert_frame.grid()
         self.convert_frame.pack(fill="both",expand=True)
         self.tk.title("Convert Values")
@@ -29,10 +29,10 @@ class ProperTree:
         self.tk.columnconfigure(2,weight=1)
         self.tk.columnconfigure(3,weight=1)
         # Build the Hex <--> Base64 converter
-        f_label = ttk.Label(self.convert_frame, text="From:")
-        f_label.grid(row=0,column=0,padx=10,pady=10)
-        t_label = ttk.Label(self.convert_frame, text="To:")
-        t_label.grid(row=1,column=0,padx=10,pady=10)
+        f_label = tk.Label(self.convert_frame, text="From:", background="gray10", foreground="white")
+        f_label.grid(row=0,column=0,padx=10,pady=0)
+        t_label = tk.Label(self.convert_frame, text="To:", background="gray10", foreground="white")
+        t_label.grid(row=1,column=0,padx=10,pady=0)
 
         # Create the settings window
         self.settings_window = tk.Toplevel(self.tk)
@@ -60,7 +60,7 @@ class ProperTree:
         self.xcode_check.grid(row=1,column=0,columnspan=2,sticky="w",padx=10)
         self.sort_check.grid(row=2,column=0,columnspan=2,sticky="w",padx=10)
         self.plist_type_string = tk.StringVar(self.settings_frame)
-        self.plist_type_menu = ttk.OptionMenu(self.settings_frame, self.plist_type_string, "XML","Binary", command=self.change_plist_type)
+        self.plist_type_menu = ttk.OptionMenu(self.settings_frame, self.plist_type_string, "XML", "XML","Binary", command=self.change_plist_type)
         plist_label = ttk.Label(self.settings_frame,text="Default New Plist Type:")
         plist_label.grid(row=3,column=0,sticky="w",padx=10)
         self.plist_type_menu.grid(row=3,column=1,sticky="we",padx=10)
@@ -72,26 +72,30 @@ class ProperTree:
         t_title = tk.StringVar(self.tk)
         f_title.set("Base64")
         t_title.set("Hex")
-        f_option = ttk.OptionMenu(self.convert_frame, f_title, "Base64", "Ascii", "Base64", "Decimal", "Hex", command=self.change_from_type)
-        t_option = ttk.OptionMenu(self.convert_frame, t_title, "Hex", "Ascii", "Base64", "Decimal", "Hex", command=self.change_to_type)
+        f_option = tk.OptionMenu(self.convert_frame, f_title, "Base64", "Ascii", "Base64", "Decimal", "Hex", command=self.change_from_type)
+        t_option = tk.OptionMenu(self.convert_frame, t_title, "Hex", "Ascii", "Base64", "Decimal", "Hex", command=self.change_to_type)
+        f_option.configure(background="gray10", foreground="white")
+        t_option.configure(background="gray10", foreground="white")
         self.from_type = "Base64"
         self.to_type   = "Hex"
         f_option.grid(row=0,column=1,sticky="we")
         t_option.grid(row=1,column=1,sticky="we")
 
-        self.f_text = ttk.Entry(self.convert_frame)
+        self.f_text = tk.Entry(self.convert_frame)
+        self.f_text.configure(background="gray15", foreground="white", bd=0, highlightthickness=1, highlightbackground="gray20", highlightcolor="gray30")
         self.f_text.delete(0,tk.END)
         self.f_text.insert(0,"")
         self.f_text.grid(row=0,column=2,columnspan=2,sticky="we",padx=10,pady=10)
 
-        self.t_text = ttk.Entry(self.convert_frame)
+        self.t_text = tk.Entry(self.convert_frame)
+        self.t_text.configure(background="gray15", foreground="white", bd=0, highlightthickness=1, highlightbackground="gray20", highlightcolor="gray30")
         self.t_text.configure(state='normal')
         self.t_text.delete(0,tk.END)
         self.t_text.insert(0,"")
         self.t_text.configure(state='readonly')
         self.t_text.grid(row=1,column=2,columnspan=2,sticky="we",padx=10,pady=10)
 
-        self.c_button = ttk.Button(self.convert_frame, text="Convert", command=self.convert_values)
+        self.c_button = ttk.Button(self.convert_frame, text="Convert", command=self.convert_values, style="aqua.TButton")
         self.c_button.grid(row=2,column=3,sticky="e",padx=10,pady=10)
 
         self.f_text.bind("<Return>", self.convert_values)
